@@ -1,25 +1,24 @@
 @Library('shared-lib') _
 pipeline {
     agent { label 'jenkins-slave' }
-       }
     stages {
         stage('build') {
             steps {
                 script {
                    withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                     {
-                       backend ()
+                        backend ()
                    
                        sh """
                             docker login -u $USERNAME -p $PASSWORD
-                            docker build -t monasamir/client:v${BUILD_NUMBER} -f $WORKSPACE/badreads-frontend/Dockerfile  
-                            docker push monasamir/client:b${BUILD_NUMBER}
-                          """
+                            docker build -t monasamir/client:a${BUILD_NUMBER} $WORKSPACE/badreads-frontend/
+                            docker push monasamir/client:a${BUILD_NUMBER}
+                       """
                    }
                 }
             }
         }
-         stage('deploy') {
+        stage('deploy') {
           
             steps {
                   withCredentials([file(credentialsId: 'kubeconfig-credi', variable: 'KUBECONFIG')]) 
