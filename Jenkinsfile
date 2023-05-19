@@ -19,20 +19,19 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
-                steps {          
-                  script {
-                    withCredentials([file(credentialsId: 'kubeconfig-credi', variable: 'KUBECONFIG')])
-                            { 
-                            sh 'cd HELM'  
-                            sh 'pwd'
-                            sh """
-                              echo "Running Helm"
-                              helm install vois${BUILD_NUMBER} ./HELM/onboard-task
-                               """  
-                    }
+         stage('deploy') {
+          
+            steps {
+                  withCredentials([file(credentialsId: 'kubeconfig-credi', variable: 'KUBECONFIG')]) 
+                {
+                sh 'cd HELM'  
+                sh 'pwd'
+                sh """
+                         echo "Running Helm"
+                         helm install vois${BUILD_NUMBER} ./HELM/onboard-task
+                        """  
                 }
+                  }
             }
-        }
-    }  
+    }
 }
