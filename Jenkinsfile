@@ -8,12 +8,7 @@ pipeline {
                    withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                     {
                         backend ()
-                   
- sh """
-                            docker login -u $USERNAME -p $PASSWORD
-                            docker build -t monasamir/client:c${BUILD_NUMBER} $WORKSPACE/badreads-frontend/
-                            docker push monasamir/client:c${BUILD_NUMBER}
-                       """
+                        frontend ()
                    }
                 }
             }
@@ -23,12 +18,7 @@ pipeline {
             steps {
                   withCredentials([file(credentialsId: 'kubeconfig-credi', variable: 'KUBECONFIG')]) 
                 {
-                sh 'cd HELM'  
-                sh 'pwd'
-                sh """
-                         echo "Running Helm"
-                         helm install vois${BUILD_NUMBER} ./HELM/onboard-task
-                        """  
+               helm ()
                 }
                   }
             }
