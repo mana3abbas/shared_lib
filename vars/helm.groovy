@@ -9,9 +9,9 @@ def call(){
                                }
                           else if (params.DEPLOY == 'test')
                           {
-                                  sh """
+                                sh """
                                     echo "Running Helm"
-                                   helm install test${BUILD_NUMBER} ./HELM/onboard-task --values ./HELM/onboard-task/test.yaml
+                                   helm install dev${BUILD_NUMBER} ./HELM/onboard-task --values ./HELM/onboard-task/test.yaml
                                     """
                                }
                          else if (params.DEPLOY == 'prod')
