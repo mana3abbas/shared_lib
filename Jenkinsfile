@@ -10,8 +10,8 @@ pipeline {
                 script {
                    withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) 
                     {
-                        frontend(client,frontend)
-                        frontend (server,backend)
+                        frontend(client)
+                       backend ()
                    }
                 }
             }
